@@ -8,6 +8,8 @@ import com.mercadolivre.socialmeli.repository.FollowersRepository;
 import com.mercadolivre.socialmeli.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,7 +45,7 @@ public class FollowersService {
 
     }
 
-    public FollowersSellerDTO findFollowersSeller(Long userId){
+    public FollowersSellerDTO findFollowersSeller(Long userId, String order){
         Users usersFollowers = userRepository.findByUserIdAndSeller(userId, true);
         FollowersSellerDTO followersSellerDTO = new FollowersSellerDTO();
 
@@ -55,14 +57,16 @@ public class FollowersService {
                 .map(this::convertToUserDTO)
                 .collect(Collectors.toList());
 
+        List<UserDTO> orderingName = orderingName(usersFollow, order);
+
         followersSellerDTO.setUserId(usersFollowers.getUserId());
         followersSellerDTO.setUserName(usersFollowers.getName());
-        followersSellerDTO.setFollowers(usersFollow);
+        followersSellerDTO.setFollowers(orderingName);
 
         return followersSellerDTO;
     }
 
-    public FollowedUserDTO findFollowedUser(Long userId){
+    public FollowedUserDTO findFollowedUser(Long userId, String order){
         Users usersFollowed = userRepository.findByUserIdAndSeller(userId, false);;
         FollowedUserDTO followedUserDTO = new FollowedUserDTO();
 
@@ -74,12 +78,15 @@ public class FollowersService {
                 .map(this::convertToUserDTO)
                 .collect(Collectors.toList());
 
+        List<UserDTO> orderingName = orderingName(sellersFollowed, order);
+
         followedUserDTO.setUserId(usersFollowed.getUserId());
         followedUserDTO.setUserName(usersFollowed.getName());
-        followedUserDTO.setFollowed(sellersFollowed);
+        followedUserDTO.setFollowed(orderingName);
         return  followedUserDTO;
     }
 
+    //US0007
     public void unfollowSeller(Long userId, Long userIdToFollow) {
         Users userFollower = userRepository.findById(userId).orElseThrow(UserDoesNotExistsException::new);
         Users userFollowed = userRepository.findById(userIdToFollow).orElseThrow(UserDoesNotExistsException::new);
@@ -92,6 +99,31 @@ public class FollowersService {
 
     }
 
+    public List<UserDTO> orderingName(List<UserDTO> listOrder, String order){
+        List<UserDTO> ordering;
+
+        if (order == null) {
+            ordering = listOrder;
+
+        } else if (order.equals("name_desc")) {
+            ordering =  listOrder.stream()
+                    .sorted(Comparator.comparing(UserDTO::getUserName).reversed())
+                    .collect(Collectors.toList());
+
+
+        } else if (order.equals("name_asc")) {
+            ordering =  listOrder.stream()
+                    .sorted(Comparator.comparing(UserDTO::getUserName))
+                    .collect(Collectors.toList());
+        } else {
+            ordering = listOrder;
+        }
+
+        return ordering;
+
+    }
+
+
     public Followers findExistsFollow(Users userId, Users userIdToFollow) {
         return followersRepository.findByFollowerIdAndFollowedId(userId, userIdToFollow);
     }
@@ -103,5 +135,7 @@ public class FollowersService {
 
         return userDTO;
     }
+
+
 
 }

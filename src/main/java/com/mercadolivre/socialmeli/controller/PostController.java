@@ -21,6 +21,7 @@ public class PostController {
         this.postService = postService;
     }
 
+    //US0005
     @PostMapping("/newpost")
     public ResponseEntity<Posts> addPost(@Validated @RequestBody Posts post){
 
@@ -29,6 +30,7 @@ public class PostController {
 
     }
 
+    //US0006
     @GetMapping("/followed/{userId}/list")
     public ResponseEntity<FollowerPostsDTO> listPostsFollowed(@PathVariable Long userId){
 
