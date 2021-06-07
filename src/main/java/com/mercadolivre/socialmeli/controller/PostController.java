@@ -30,12 +30,12 @@ public class PostController {
 
     }
 
-    //US0006
+    //US0006 - US0009
     @GetMapping("/followed/{userId}/list")
-    public ResponseEntity<FollowerPostsDTO> listPostsFollowed(@PathVariable Long userId){
+    public ResponseEntity<FollowerPostsDTO> listPostsFollowed(@PathVariable Long userId, String order){
 
-        FollowerPostsDTO followerPostsDTOS = postService.findPostsFollowed(userId);
-        return new ResponseEntity<>(followerPostsDTOS, HttpStatus.CREATED);
+        FollowerPostsDTO followerPostsDTOS = postService.findPostsFollowed(userId, order);
+        return new ResponseEntity<>(followerPostsDTOS, HttpStatus.OK);
 
     }
 

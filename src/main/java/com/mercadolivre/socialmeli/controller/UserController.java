@@ -54,7 +54,7 @@ public class UserController {
             return new ResponseEntity<>(followerCountDTO, HttpStatus.OK);
     }
 
-    //US0003
+    //US0003 - US0008
     @GetMapping(path = "/{userId}/followers/list")
     public ResponseEntity<FollowersSellerDTO> findFollowersSeller(@PathVariable Long userId, String order){
 
@@ -62,7 +62,7 @@ public class UserController {
             return new ResponseEntity<>(followersSeller, HttpStatus.OK);
     }
 
-    //US0004
+    //US0004 - US0008
     @GetMapping(path = "/{userId}/followed/list")
     public ResponseEntity<FollowedUserDTO> findFollowedUser(@PathVariable Long userId, String order){
 
