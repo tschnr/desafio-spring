@@ -21,12 +21,14 @@ public class SocialMeliApplication {
         Users myUser3 = new Users("user3", false);
         Users myUser4 = new Users("seller1", true);
         Users myUser5 = new Users("seller2", true);
+        Users myUser6 = new Users("seller3", true);
 
         userRepository.save(myUser1);
         userRepository.save(myUser2);
         userRepository.save(myUser3);
         userRepository.save(myUser4);
         userRepository.save(myUser5);
+        userRepository.save(myUser6);
 
     }
 

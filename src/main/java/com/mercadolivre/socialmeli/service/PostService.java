@@ -56,6 +56,7 @@ public class PostService{
         List<Posts> posts = postRepository.resultList(userId).stream()
                 .filter(post -> post.getDate().isAfter(twoWeekAgo))
                 .filter(post -> post.getDate().isBefore(LocalDate.now().plusDays(1)))
+                .sorted(Comparator.comparing(Posts::getDate).reversed())
                 .collect(Collectors.toList());
 
         List<Posts> orderingDatePost = orderingDatePost(posts, order);
