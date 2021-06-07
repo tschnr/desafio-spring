@@ -14,4 +14,7 @@ public interface PostRepository extends JpaRepository<Posts, Long> {
     @Query("SELECT p FROM Posts p JOIN Users u ON (p.userId = u.userId) " +
             "JOIN Followers f ON (f.followedId.userId = p.userId) WHERE f.followerId.userId = ?1")
     List<Posts> resultList(Long userId);
+
+    List<Posts> findPostsByUserIdAndHasPromo(Long userId, Boolean hasPromo);
+
 }

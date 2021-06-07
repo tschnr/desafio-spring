@@ -3,6 +3,7 @@ package com.mercadolivre.socialmeli.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -29,6 +30,13 @@ public class Posts {
 
     @Column(name = "price")
     private Double price;
+
+    @Column(name = "hasPromo")
+    private Boolean hasPromo = false;
+
+    @Column(name = "discount")
+    private BigDecimal discount = new BigDecimal(0);
+
 
     public Posts(){
 
@@ -87,5 +95,21 @@ public class Posts {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Boolean getHasPromo() {
+        return hasPromo;
+    }
+
+    public void setHasPromo(Boolean hasPromo) {
+        this.hasPromo = hasPromo;
+    }
+
+    public BigDecimal getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(BigDecimal discount) {
+        this.discount = discount;
     }
 }

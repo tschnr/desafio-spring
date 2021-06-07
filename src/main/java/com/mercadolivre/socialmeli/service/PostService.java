@@ -1,9 +1,10 @@
 package com.mercadolivre.socialmeli.service;
 
-
 import com.mercadolivre.socialmeli.dto.FollowerPostsDTO;
-import com.mercadolivre.socialmeli.dto.PostDTO;
-import com.mercadolivre.socialmeli.dto.UserDTO;
+import com.mercadolivre.socialmeli.dto.PostCountPromoDTO;
+import com.mercadolivre.socialmeli.dto.PostsBySeller;
+import com.mercadolivre.socialmeli.exception.ProductIsNotPromo;
+import com.mercadolivre.socialmeli.exception.ProductIsPromo;
 import com.mercadolivre.socialmeli.exception.UserDoesNotExistsException;
 import com.mercadolivre.socialmeli.exception.UserNotSeller;
 import com.mercadolivre.socialmeli.model.Posts;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,6 +33,17 @@ public class PostService{
 
         Users user = userRepository.findById(post.getUserId()).orElseThrow(UserDoesNotExistsException::new);
         if (!user.getSeller())  throw new UserNotSeller();
+        if (post.getHasPromo()) throw new ProductIsPromo();
+
+        postRepository.save(post);
+        return post;
+    }
+
+    public Posts addPromoPost(Posts post){
+
+        Users user = userRepository.findById(post.getUserId()).orElseThrow(UserDoesNotExistsException::new);
+        if (!user.getSeller())  throw new UserNotSeller();
+        if (!post.getHasPromo()) throw new ProductIsNotPromo();
 
         postRepository.save(post);
         return post;
@@ -56,6 +67,39 @@ public class PostService{
        return followerPostsDTO;
     }
 
+    public PostCountPromoDTO postCountPromo(Long userId){
+        PostCountPromoDTO postCountPromoDTO = new PostCountPromoDTO();
+        Users users = userRepository.findByUserIdAndSeller(userId, true);
+
+        if (users == null) throw new UserNotSeller();
+
+        Integer countPost = postRepository.findPostsByUserIdAndHasPromo(userId, true).size();
+
+        postCountPromoDTO.setUserId(userId);
+        postCountPromoDTO.setUserName(users.getName());
+        postCountPromoDTO.setPromoproducts_count(countPost);
+
+
+        return postCountPromoDTO;
+    }
+
+    public PostsBySeller postsBySeller(Long userId){
+        PostsBySeller postsBySeller = new PostsBySeller();
+
+        Users users = userRepository.findByUserIdAndSeller(userId, true);
+
+        if (users == null) throw new UserNotSeller();
+
+        List<Posts> posts = postRepository.findPostsByUserIdAndHasPromo(userId, true);
+
+        postsBySeller.setUserId(userId);
+        postsBySeller.setUserName(users.getName());
+        postsBySeller.setPosts(posts);
+
+
+        return postsBySeller;
+    }
+
     public List<Posts> orderingDatePost(List<Posts> listOrder, String order){
         List<Posts> ordering;
 
@@ -77,7 +121,6 @@ public class PostService{
         }
 
         return ordering;
-
     }
 
 
