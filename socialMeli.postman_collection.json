@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "33636172-07d9-4441-bf77-9417aed92730",
+		"_postman_id": "19fd3849-21dc-4695-9b4e-0ad6a36737f7",
 		"name": "socialMeli",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -23,10 +23,11 @@
 							}
 						},
 						"url": {
-							"raw": "{{api}}/products/newpost",
+							"raw": "localhost:8080/products/newpost",
 							"host": [
-								"{{api}}"
+								"localhost"
 							],
+							"port": "8080",
 							"path": [
 								"products",
 								"newpost"
@@ -50,10 +51,11 @@
 							}
 						},
 						"url": {
-							"raw": "{{api}}/products/newpromopost",
+							"raw": "localhost:8080/products/newpromopost",
 							"host": [
-								"{{api}}"
+								"localhost"
 							],
+							"port": "8080",
 							"path": [
 								"products",
 								"newpromopost"
@@ -68,10 +70,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{api}}/products/followed/1/list",
+							"raw": "localhost:8080/products/followed/1/list",
 							"host": [
-								"{{api}}"
+								"localhost"
 							],
+							"port": "8080",
 							"path": [
 								"products",
 								"followed",
@@ -95,33 +98,34 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{api}}/products/4/list",
+							"raw": "localhost:8080/products/4/countPromo",
 							"host": [
-								"{{api}}"
+								"localhost"
 							],
+							"port": "8080",
 							"path": [
 								"products",
 								"4",
-								"list"
+								"countPromo"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "list-post-promo",
+					"name": "list-post-sellers",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{api}}/products/followed/2/list",
+							"raw": "localhost:8080/products/4/list",
 							"host": [
-								"{{api}}"
+								"localhost"
 							],
+							"port": "8080",
 							"path": [
 								"products",
-								"followed",
-								"2",
+								"4",
 								"list"
 							]
 						}
@@ -202,10 +206,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{api}}/users/1/followed/list",
+							"raw": "localhost:8080/users/1/followed/list",
 							"host": [
-								"{{api}}"
+								"localhost"
 							],
+							"port": "8080",
 							"path": [
 								"users",
 								"1",
@@ -229,10 +234,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{api}}/users/4/followers/list?order=name_desc",
+							"raw": "localhost:8080/users/4/followers/list",
 							"host": [
-								"{{api}}"
+								"localhost"
 							],
+							"port": "8080",
 							"path": [
 								"users",
 								"4",
@@ -242,7 +248,8 @@
 							"query": [
 								{
 									"key": "order",
-									"value": "name_desc"
+									"value": "name_desc",
+									"disabled": true
 								}
 							]
 						}
